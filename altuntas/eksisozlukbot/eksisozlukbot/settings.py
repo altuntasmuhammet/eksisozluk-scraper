@@ -8,6 +8,8 @@
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import os
 
+import sys
+import django
 
 BOT_NAME = 'eksisozlukbot'
 
@@ -101,3 +103,19 @@ LOG_LEVEL = "INFO"
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+)
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "..")
+)
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "../../")
+)
+
+# We load this here and not directly via a "pre-set" environment variable because of path weirdness when Django
+# starts-up via the celery fixup.
+os.environ["DJANGO_SETTINGS_MODULE"] = "carbalert.carbalert.settings"
+
+django.setup()

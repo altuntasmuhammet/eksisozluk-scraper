@@ -1,4 +1,4 @@
 {
     "python.linting.enabled": true,
-    "python.analysis.extraPaths": ["eksisozlukbot"]
+    "python.analysis.extraPaths": ["altuntas"]
 }
