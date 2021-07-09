@@ -1,0 +1,28 @@
+#This file is for illustrative and dev purposes
+version: '3'
+services:
+  db:
+    restart: always
+    image: postgres:9.4
+    env_file:
+        - .env
+    volumes:
+       - ./db:/var/lib/postgresql/data/ 
+  web:
+    restart: always
+    build: ./app-server
+    env_file:
+        - .env
+    ports:
+       - "8000:8000"
+    depends_on:
+       - db
+  scraper:
+    restart: always
+    build: ./eksisozlukbot
+    depends_on:
+       - db
+       - web
+    env_file:
+        - .env
+       
