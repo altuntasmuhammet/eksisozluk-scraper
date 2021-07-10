@@ -1,0 +1,1 @@
+from .eksisozlukbot import Entry

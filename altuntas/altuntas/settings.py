@@ -61,7 +61,7 @@ CELERY_ACKS_LATE = True
 CELERY_TASK_PUBLISH_RETRY = True
 CELERY_DISABLE_RATE_LIMITS = False
 CELERY_IMPORTS = (
-    'eksisozlukbot.eksisozlukbot.tasks',
+    'scraper.tasks.eksisozlukbot',
 )
 
 CELERY_DEFAULT_QUEUE = 'default'
@@ -73,6 +73,7 @@ CELERY_QUEUES = (
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,8 +82,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_celery_beat',
     'django_celery_results',
-    'web',
-    'api',
+    'scraper',
 ]
 
 MIDDLEWARE = [

@@ -6,40 +6,21 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-from sqlalchemy.orm import sessionmaker
-from .models import Entry, create_entries_table, db_connect
+from scraper.models.eksisozlukbot import Entry
 
 
 
 class EksisozlukbotPipeline:
-    def __init__(self):
-        """
-        Initializes database connection and sessionmaker.
-        Creates items table.
-        """
-        engine = db_connect()
-        print("*********ENGINE*********", engine)
-        create_entries_table(engine)
-        self.Session = sessionmaker(bind=engine)
 
     def process_item(self, item, spider):
         """
         Process the item and store to database.
         """
-        session = self.Session()
-        instance = session.query(Entry).filter_by(
-            eksisozluk_entry_id=item['eksisozluk_entry_id']).one_or_none()
-        if instance:
+        entry = Entry.objects.filter(eksisozluk_entry_id=item['eksisozluk_entry_id'])
+        if entry:
             return item
             
         entry_item = Entry(**item)
-        try:
-            session.add(entry_item)
-            session.commit()
-        except:
-            session.rollback()
-            raise
-        finally:
-            session.close()
+        entry_item.save()
 
         return item
