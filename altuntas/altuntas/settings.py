@@ -28,16 +28,16 @@ SECRET_KEY = 'django-insecure-ebwcjavi2sybn)us5pc%p@9qt*49)#^5ywwj#j3kdflz78tm%k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Database configuration
 
-POSTGRES_DB_NAME=os.environ['DB_NAME']
-POSTGRES_DB_USER=os.environ['DB_USER']
-POSTGRES_DB_PASSWORD=os.environ['DB_PASSWORD']
-POSTGRES_DB_HOST=os.environ['DB_HOST']
-POSTGRES_DB_PORT=os.environ['DB_PORT']
+POSTGRES_DB_NAME=os.environ['POSTGRES_DB_NAME']
+POSTGRES_DB_USER=os.environ['POSTGRES_DB_USER']
+POSTGRES_DB_PASS=os.environ['POSTGRES_DB_PASS']
+POSTGRES_DB_HOST=os.environ['POSTGRES_DB_HOST']
+POSTGRES_DB_PORT=os.environ['POSTGRES_DB_PORT']
 
 # Rabbitmq configuration
 
@@ -76,9 +76,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_beat',
+    'django_celery_results',
     'web',
     'api',
-    'eksisozlukbot.eksisozlukbot',
 ]
 
 MIDDLEWARE = [
@@ -120,7 +121,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': POSTGRES_DB_NAME,
         'USER': POSTGRES_DB_USER,
-        'PASSWORD':POSTGRES_DB_PASSWORD,
+        'PASSWORD':POSTGRES_DB_PASS,
         'HOST': POSTGRES_DB_HOST,
         'PORT': POSTGRES_DB_PORT,
     }
@@ -164,6 +165,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

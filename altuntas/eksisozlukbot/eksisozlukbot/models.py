@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import (
     Integer, String, DateTime)
 from scrapy.utils.project import get_project_settings
+from django.conf import settings
 
 Base = declarative_base()
 
@@ -14,7 +15,15 @@ def db_connect() -> Engine:
     Creates database connection using database settings from settings.py.
     Returns sqlalchemy engine instance
     """
-    return create_engine(URL(**(get_project_settings()['DATABASE'])))
+    DATABASE = {
+        "drivername": "postgresql",
+        "host": settings.POSTGRES_DB_HOST,
+        "port": settings.POSTGRES_DB_PORT,
+        "username": settings.POSTGRES_DB_USER,
+        "password": settings.POSTGRES_DB_PASS,
+        "database": settings.POSTGRES_DB_NAME,
+    }
+    return create_engine(URL(**DATABASE))
 
 
 def create_entries_table(engine: Engine):

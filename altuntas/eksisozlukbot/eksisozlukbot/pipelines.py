@@ -7,7 +7,7 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 from sqlalchemy.orm import sessionmaker
-from eksisozlukbot.models import Entry, create_entries_table, db_connect
+from .models import Entry, create_entries_table, db_connect
 
 
 
@@ -18,6 +18,7 @@ class EksisozlukbotPipeline:
         Creates items table.
         """
         engine = db_connect()
+        print("*********ENGINE*********", engine)
         create_entries_table(engine)
         self.Session = sessionmaker(bind=engine)
 

@@ -6,23 +6,28 @@ import urllib.parse
 
 EKSISOZLUK_BASEURL = "https://eksisozluk.com"
 DATETIME_FORMAT = "%d.%m.%Y %H:%M"
-start_date = ""
-end_date = ""
-keywords = ["apache kafka"]
+START_DATE = ""
+END_DATE = ""
+# keywords = ["apache kafka"]
 
 class EksisozlukSpider(scrapy.Spider):
     name = 'eksisozluk'
     allowed_domains = ['eksisozluk.com']
     # start_urls = ['http://eksisozluk.com/']
 
+    def __init__(self, keywords="", *args, **kwargs):
+        super(EksisozlukSpider, self).__init__(*args, **kwargs)
+        self.keywords = [k.strip() for k in keywords.split(",")]
+
+
     def start_requests(self):
         title_query_url_templated = "https://eksisozluk.com/basliklar/ara?SearchForm.Keywords={keyword}&SearchForm.Author=&SearchForm.When.From={start_date}&SearchForm.When.To={end_date}&SearchForm.NiceOnly=false&SearchForm.FavoritedOnly=false&SearchForm.SortOrder=Date&_={timestamp}"
-        for keyword in keywords:
+        for keyword in self.keywords:
             encoded_keyword = urllib.parse.quote(keyword) 
             timestamp = int(time.time() * 1000)
             url = title_query_url_templated.format(keyword=encoded_keyword,
-                                                   start_date=start_date,
-                                                   end_date=end_date,
+                                                   start_date=START_DATE,
+                                                   end_date=END_DATE,
                                                    timestamp=timestamp)
             print("******URL****** - {}".format(url))
             yield scrapy.Request(url=url, callback=self.parse_title_links)

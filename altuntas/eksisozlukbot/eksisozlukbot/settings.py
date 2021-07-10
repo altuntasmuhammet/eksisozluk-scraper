@@ -11,6 +11,21 @@ import os
 import sys
 import django
 
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+)
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "..")
+)
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "../../")
+)
+os.environ['DJANGO_SETTINGS_MODULE'] = 'altuntas.settings'
+
+django.setup()
+
+# from django.conf import settings
+
 BOT_NAME = 'eksisozlukbot'
 
 SPIDER_MODULES = ['eksisozlukbot.spiders']
@@ -70,16 +85,15 @@ ITEM_PIPELINES = {
    'eksisozlukbot.pipelines.EksisozlukbotPipeline': 300,
 }
 
-# Configure database
-DATABASE = {
-    "drivername": "postgres",
-    "host": os.environ["POSTGRES_HOST"],
-    "port": os.environ["POSTGRES_PORT"],
-    "username": os.environ["POSTGRES_USER"],
-    "password": os.environ["POSTGRES_PASS"],
-    "database": os.environ["POSTGRES_DB"],
-}
-
+# # Configure database
+# DATABASE = {
+#     "drivername": "postgresql",
+#     "host": settings.POSTGRES_DB_HOST,
+#     "port": settings.POSTGRES_DB_PORT,
+#     "username": settings.POSTGRES_DB_USER,
+#     "password": settings.POSTGRES_DB_PASS,
+#     "database": settings.POSTGRES_DB_NAME,
+# }
 # Configure logging
 LOG_LEVEL = "INFO"
 
@@ -103,19 +117,3 @@ LOG_LEVEL = "INFO"
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
-
-sys.path.append(
-    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
-sys.path.append(
-    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "..")
-)
-sys.path.append(
-    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "../../")
-)
-
-# We load this here and not directly via a "pre-set" environment variable because of path weirdness when Django
-# starts-up via the celery fixup.
-os.environ["DJANGO_SETTINGS_MODULE"] = "carbalert.carbalert.settings"
-
-django.setup()
