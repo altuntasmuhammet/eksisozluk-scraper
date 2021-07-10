@@ -1,0 +1,11 @@
+psycopg2
+Scrapy
+SQLAlchemy
+celery==4.4.7
+django-crispy-forms==1.9.2
+django-tables2==2.3.1
+django-celery-results
+django_celery_beat
+django-filter==2.4.0
+flower
+bootstrap-admin

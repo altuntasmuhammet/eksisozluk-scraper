@@ -8,6 +8,23 @@
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import os
 
+import sys
+import django
+
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+)
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "..")
+)
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "../../")
+)
+os.environ['DJANGO_SETTINGS_MODULE'] = 'altuntas.settings'
+
+django.setup()
+
+# from django.conf import settings
 
 BOT_NAME = 'eksisozlukbot'
 
@@ -68,16 +85,15 @@ ITEM_PIPELINES = {
    'eksisozlukbot.pipelines.EksisozlukbotPipeline': 300,
 }
 
-# Configure database
-DATABASE = {
-    "drivername": "postgres",
-    "host": os.environ["POSTGRES_HOST"],
-    "port": os.environ["POSTGRES_PORT"],
-    "username": os.environ["POSTGRES_USER"],
-    "password": os.environ["POSTGRES_PASS"],
-    "database": os.environ["POSTGRES_DB"],
-}
-
+# # Configure database
+# DATABASE = {
+#     "drivername": "postgresql",
+#     "host": settings.POSTGRES_HOST,
+#     "port": settings.POSTGRES_PORT,
+#     "username": settings.POSTGRES_USER,
+#     "password": settings.POSTGRES_PASSWORD,
+#     "database": settings.POSTGRES_DB,
+# }
 # Configure logging
 LOG_LEVEL = "INFO"
 

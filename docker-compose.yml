@@ -1,28 +1,76 @@
 #This file is for illustrative and dev purposes
 version: '3'
 services:
-  db:
-    restart: always
-    image: postgres:9.4
-    env_file:
-        - .env
-    volumes:
-       - ./db:/var/lib/postgresql/data/ 
-  web:
-    restart: always
-    build: ./app-server
-    env_file:
-        - .env
-    ports:
-       - "8000:8000"
-    depends_on:
-       - db
-  scraper:
-    restart: always
-    build: ./eksisozlukbot
-    depends_on:
-       - db
-       - web
-    env_file:
-        - .env
-       
+    web:
+        container_name: web
+        restart: always
+        build: ./altuntas
+        command: ./run_web.sh
+        env_file:
+            - docker.env
+        ports:
+            - "8000:8000"
+        links:
+            - db:db
+        depends_on:
+            - db
+    db:
+        restart: always
+        container_name: db
+        image: postgres:13.3
+        env_file:
+            - docker.env
+        volumes:
+            - ./docker-volume/db/data:/var/lib/postgresql/data
+            - ./docker-volume/db/log:/var/log/postgresql
+        # ports:
+        #     - '${POSTGRES_PORT}:5432'
+    rabbitmq:
+        image: rabbitmq:3.8.2-management
+        container_name: rabbitmq
+        volumes:
+            - ./docker-volume/rabbitmq:/etc/rabbitmq/:rw
+            - ./docker-volume/rabbitmq:/var/lib/rabbitmq/:rw
+            - ./docker-volume/rabbitmq:/var/log/rabbitmq/:rw
+        env_file:
+            - docker.env
+        restart: always
+    worker:
+        build: ./altuntas
+        container_name: worker
+        command: ./run_celery_worker.sh
+        volumes:
+            - ./docker-volume/worker:/app
+        env_file:
+            - docker.env
+        depends_on:
+            - db
+            - rabbitmq
+            - web
+        restart: always
+    scheduler:
+        build: ./altuntas
+        container_name: scheduler
+        command: ./run_celery_beat_worker.sh
+        volumes:
+            - ./docker-volume/scheduler:/app
+        env_file:
+            - docker.env
+        depends_on:
+            - db
+            - rabbitmq
+            - web
+        restart: always
+    monitoring:
+        build: ./altuntas
+        container_name: monitoring
+        env_file:
+            - docker.env
+        command: ./run_flower.sh
+        ports:
+            - 8888:8888
+        depends_on:
+            - db
+            - rabbitmq
+            - web
+        restart: always
