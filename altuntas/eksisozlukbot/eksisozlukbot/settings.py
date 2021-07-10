@@ -88,11 +88,11 @@ ITEM_PIPELINES = {
 # # Configure database
 # DATABASE = {
 #     "drivername": "postgresql",
-#     "host": settings.POSTGRES_DB_HOST,
-#     "port": settings.POSTGRES_DB_PORT,
-#     "username": settings.POSTGRES_DB_USER,
-#     "password": settings.POSTGRES_DB_PASS,
-#     "database": settings.POSTGRES_DB_NAME,
+#     "host": settings.POSTGRES_HOST,
+#     "port": settings.POSTGRES_PORT,
+#     "username": settings.POSTGRES_USER,
+#     "password": settings.POSTGRES_PASSWORD,
+#     "database": settings.POSTGRES_DB,
 # }
 # Configure logging
 LOG_LEVEL = "INFO"

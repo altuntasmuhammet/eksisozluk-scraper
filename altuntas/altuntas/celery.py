@@ -7,6 +7,5 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'altuntas.settings')
 
 app = Celery('altuntas')
-
-app.config_from_object(settings)
+app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
