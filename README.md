@@ -46,7 +46,7 @@ http://localhost:8000/admin/scraper/entry/
 ![image](https://user-images.githubusercontent.com/38005987/125173396-d6989f00-e1c7-11eb-9c37-6207b5d5a945.png)
 
 ## Architecture
-![image](https://user-images.githubusercontent.com/38005987/125174379-cbe10880-e1cd-11eb-9d7a-15d846f4c2b6.png)
+![image](https://user-images.githubusercontent.com/38005987/125174403-f4690280-e1cd-11eb-9e0d-6c17d86403f5.png)
 
 # TO dos
 1. REST API for obtaining scraped data programmatically
