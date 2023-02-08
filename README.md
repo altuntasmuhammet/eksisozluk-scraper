@@ -31,9 +31,11 @@ http://localhost:8000/admin/django_celery_beat/periodictask/
 ![image](https://user-images.githubusercontent.com/38005987/125173208-ccc26c00-e1c6-11eb-96d3-980d6c2ab828.png)
 5. Extend **Arguments** title and fill **Keyworded arguments** as given below
 ```
-{"keywords": "apache kafka, winter wine"}
+{"keywords": [["apache kafka", 5], ["winter wine", 2]]}
 ```
-6. Click save button
+**Note:** First argument is keyword, second argument is number of pages to be parsed from end
+
+1. Click save button
 
 ## Seeing scraped entries
 Enter link given below

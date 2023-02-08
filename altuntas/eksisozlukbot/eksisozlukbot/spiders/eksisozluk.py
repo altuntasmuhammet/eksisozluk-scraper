@@ -1,8 +1,9 @@
-import scrapy
-
+import json
 import time
-from datetime import datetime
 import urllib.parse
+from datetime import datetime
+
+import scrapy
 
 EKSISOZLUK_BASEURL = "https://eksisozluk.com"
 DATETIME_FORMAT = "%d.%m.%Y %H:%M"
@@ -17,12 +18,11 @@ class EksisozlukSpider(scrapy.Spider):
 
     def __init__(self, keywords="", *args, **kwargs):
         super(EksisozlukSpider, self).__init__(*args, **kwargs)
-        self.keywords = [k.strip() for k in keywords.split(",")]
-
+        self.keywords = keywords
 
     def start_requests(self):
         title_query_url_templated = "https://eksisozluk.com/basliklar/ara?SearchForm.Keywords={keyword}&SearchForm.Author=&SearchForm.When.From={start_date}&SearchForm.When.To={end_date}&SearchForm.NiceOnly=false&SearchForm.FavoritedOnly=false&SearchForm.SortOrder=Date&_={timestamp}"
-        for keyword in self.keywords:
+        for keyword, last_n_page_to_parse in self.keywords:
             encoded_keyword = urllib.parse.quote(keyword) 
             timestamp = int(time.time() * 1000)
             url = title_query_url_templated.format(keyword=encoded_keyword,
@@ -30,23 +30,25 @@ class EksisozlukSpider(scrapy.Spider):
                                                    end_date=END_DATE,
                                                    timestamp=timestamp)
             print("******URL****** - {}".format(url))
-            yield scrapy.Request(url=url, callback=self.parse_title_links)
+            yield scrapy.Request(url=url, callback=self.parse_title_links, meta={'last_n_page': last_n_page_to_parse})
 
     def parse_title_links(self, response):
-        print()
+        last_n_page = response.meta.get('last_n_page')
         titles = response.css('div.instapaper_body ul.topic-list li')
         print("********TITLE********:", titles)
         for title in titles:
             title_url = EKSISOZLUK_BASEURL + title.css('a::attr(href)').get()
             title_name = title.css("a::text").get().strip()
-            yield scrapy.Request(url=title_url, callback=self.parse_pages, meta={'title_url': title_url, 'title_name': title_name})
+            yield scrapy.Request(url=title_url, callback=self.parse_pages, meta={'title_url': title_url, 'title_name': title_name, 'last_n_page': last_n_page})
     
     def parse_pages(self, response):
+        last_n_page = response.meta.get('last_n_page')
         page_count_str = response.css('div.pager::attr(data-pagecount)').get()
         page_count = int(page_count_str) if page_count_str else 1
         title_url = response.meta['title_url']
         title_name = response.meta['title_name']
-        for page_num in range(1, page_count+1):
+        start_page = max(1, page_count - last_n_page + 1)
+        for page_num in range(start_page, page_count+1):
             url = "{title_url}?p={page_num}".format(title_url=title_url, page_num=page_num)
             yield scrapy.Request(url=url, callback=self.parse_entries_per_page, meta={'title_name':title_name})
     

@@ -7,6 +7,8 @@ from scrapy.crawler import Crawler
 from scrapy.settings import Settings
 from twisted.internet import reactor
 
+SCRAPING_HARD_TIME_LIMIT = 30
+
 
 def scrape_eksisozluk(**kwargs):
     crawler_settings = Settings()
@@ -25,7 +27,7 @@ def scrape_eksisozluk(**kwargs):
     reactor.run()
 
 
-@task(name="Scrape EksiSozluk", track_started=True)
+@task(name="Scrape EksiSozluk", track_started=True, time_limit=SCRAPING_HARD_TIME_LIMIT)
 def run_scrape_eksisozluk(*args, **kwargs):
     """Running eksisozluk scrapy task in celery."""
     p = Process(target=scrape_eksisozluk, args=args, kwargs=kwargs)
