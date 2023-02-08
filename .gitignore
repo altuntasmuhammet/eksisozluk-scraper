@@ -1,5 +1,8 @@
 # Docker volume
 *docker-volume
+docker.prod.env
+*docker.env
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

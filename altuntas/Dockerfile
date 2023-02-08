@@ -1,39 +1,9 @@
-# pull official base image
-FROM python:3.9.5-alpine
+FROM python:3.9-alpine3.13
 
-RUN apk add --no-cache postgresql-libs && \
- apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
-
-RUN apk add --update \
-  build-base \
-  cairo \
-  cairo-dev \
-  cargo \
-  freetype-dev \
-  gcc \
-  gdk-pixbuf-dev \
-  gettext \
-  jpeg-dev \
-  lcms2-dev \
-  libffi-dev \
-  musl-dev \
-  openjpeg-dev \
-  openssl-dev \
-  pango-dev \
-  poppler-utils \
-  postgresql-client \
-  postgresql-dev \
-  py-cffi \
-  python3-dev \
-  rust \
-  tcl-dev \
-  tiff-dev \
-  tk-dev \
-  zlib-dev
-
-RUN apk add --update \
-  g++ \
-  libxslt-dev
+# Install dependencies required for psycopg2 python package
+RUN apk update && apk add libpq
+RUN apk update && apk add --virtual .build-deps gcc python3-dev musl-dev postgresql-dev
+RUN apk add libffi-dev
 
 # set work directory
 WORKDIR /usr/src/app
@@ -49,3 +19,5 @@ RUN pip install -r requirements.txt
 
 # Copy the project
 COPY . /usr/src/app/
+
+RUN mv wait-for /bin/wait-for

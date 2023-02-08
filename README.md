@@ -17,6 +17,10 @@ docker-compose up
 docker exec -it web sh
 python manage.py createsuper
 ```
+## Deployment
+```sh
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+```
 
 ## Creating scheduled task
 1. Enter link given below
