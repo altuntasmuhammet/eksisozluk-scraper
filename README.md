@@ -1,7 +1,7 @@
-# altuntas-eksisozluk-scraper
-altuntas-eksisozluk-scraper
+# eksisozluk-scraper
+eksisozluk-scraper
 
-altuntas is a complete eksi-sozluk scraper management system.
+Complete eksi-sozluk scraper management system
 
 ## Requirements
 Docker 19.03.6+
