@@ -8,7 +8,7 @@ class Entry(models.Model):
     favourite_count = models.IntegerField()
     author = models.TextField()
     created_date = models.DateTimeField()
-    edited_date = models.DateTimeField(blank=True)
+    edited_date = models.DateTimeField(blank=True, null=True)
     eksisozluk_entry_id = models.IntegerField(unique=True)
     eksisozluk_author_id = models.IntegerField()
 

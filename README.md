@@ -31,7 +31,7 @@ http://localhost:8000/admin/django_celery_beat/periodictask/
 ![image](https://user-images.githubusercontent.com/38005987/125173208-ccc26c00-e1c6-11eb-96d3-980d6c2ab828.png)
 5. Extend **Arguments** title and fill **Keyworded arguments** as given below
 ```
-{"keyword": "apache kafka, winter wine"}
+{"keywords": "apache kafka, winter wine"}
 ```
 6. Click save button
 
@@ -41,7 +41,7 @@ http://localhost:8000/admin/scraper/entry/
 ![image](https://user-images.githubusercontent.com/38005987/125173382-ba94fd80-e1c7-11eb-8612-626ea3622135.png)
 
 ## Monitoring tasks
-http://localhost:8000/admin/scraper/entry/
+http://localhost:8888
 ![image](https://user-images.githubusercontent.com/38005987/125173390-caacdd00-e1c7-11eb-86fe-971d9c2f1a69.png)
 ![image](https://user-images.githubusercontent.com/38005987/125173396-d6989f00-e1c7-11eb-9c37-6207b5d5a945.png)
 
