@@ -1,4 +1,5 @@
 import json
+import pytz
 import time
 import urllib.parse
 from datetime import datetime
@@ -9,6 +10,7 @@ EKSISOZLUK_BASEURL = "https://eksisozluk.com"
 DATETIME_FORMAT = "%d.%m.%Y %H:%M"
 START_DATE = ""
 END_DATE = ""
+TURKEY_TZ = pytz.timezone('Europe/Istanbul')
 # keywords = ["apache kafka"]
 
 class EksisozlukSpider(scrapy.Spider):
@@ -73,11 +75,11 @@ class EksisozlukSpider(scrapy.Spider):
                 print("LOG 1", created_date_str, edited_date_str)
                 edited_date_str = edited_date_str if len(edited_date_str)==len(created_date_str) else " ".join([created_date_str.split(' ')[0], edited_date_str])
                 print("LOG 2", created_date_str, edited_date_str)
-                created_date = datetime.strptime(created_date_str, DATETIME_FORMAT)
-                edited_date = datetime.strptime(edited_date_str, DATETIME_FORMAT)
+                created_date = TURKEY_TZ.localize(datetime.strptime(created_date_str, DATETIME_FORMAT)).astimezone(pytz.UTC).replace(tzinfo=None)
+                edited_date = TURKEY_TZ.localize(datetime.strptime(edited_date_str, DATETIME_FORMAT)).astimezone(pytz.UTC).replace(tzinfo=None)
             else:
                 created_date_str = date.strip()
-                created_date = datetime.strptime(created_date_str, DATETIME_FORMAT)
+                created_date = TURKEY_TZ.localize(datetime.strptime(created_date_str, DATETIME_FORMAT)).astimezone(pytz.UTC).replace(tzinfo=None)
                 edited_date = None
             # eksisozluk_entry_id
             eksisozluk_entry_id = int(entry.attrib['data-id'])

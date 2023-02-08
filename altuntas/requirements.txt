@@ -9,3 +9,4 @@ django_celery_beat
 django-filter==2.4.0
 flower
 bootstrap-admin
+djangorestframework==3.14.0

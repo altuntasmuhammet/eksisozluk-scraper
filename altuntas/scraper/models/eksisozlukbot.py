@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 
 
@@ -17,4 +16,3 @@ class Entry(models.Model):
         db_table = "scraper_eksisozluk_entries"
         verbose_name_plural = "Eksisozluk Entries"
         verbose_name = "Eksisozluk Entry"
-        # abstract=True
