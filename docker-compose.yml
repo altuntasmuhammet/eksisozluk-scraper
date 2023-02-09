@@ -10,8 +10,8 @@ services:
         command: ./run_web.sh
         env_file:
             - docker.env
-        ports:
-            - "8000:8000"
+        expose:
+            - "8000"
         links:
             - db:db
         depends_on:
